@@ -1,0 +1,18 @@
+doctype 5
+html
+	head
+		link(href='/css/style.css', rel='stylesheet')
+		script(src='http://code.jquery.com/jquery-1.7.min.js')
+		script(src='/socket.io/socket.io.js')
+		script(src='/js/client.js')
+		body
+			p
+			table#board
+				- boardSize = 15
+				- for (var row=1; row <= boardSize; row++)
+					tr
+						- for (var col=1; col <= boardSize; col++)
+							td
+								input(data-coords="#{row},#{col}") 
+	
+	
