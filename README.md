@@ -1,6 +1,6 @@
-### scrabble
+###  [scrabble](http://scrabble.nodejitsu.com)
 
-### install npm (node package manager)
+### install [npm](http://npmjs.org/)
 
     curl http://npmjs.org/install.sh | sh
 
