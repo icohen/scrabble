@@ -5,7 +5,8 @@
 var express = require('express')
   , stylus = require('stylus')
   , nib = require('nib')
-  , sio = require('socket.io');
+  , sio = require('socket.io')
+	, scrabble = require('./scrabble');
 
 /**
  * App.
@@ -52,7 +53,8 @@ app.listen(3000, function () {
  */
 
 var io = sio.listen(app)
-  , board = {};
+	, board = {}
+	, letters = scrabble.letters
 
 io.sockets.on('connection', function (socket) {
 	
@@ -64,5 +66,16 @@ io.sockets.on('connection', function (socket) {
 			board[coords] = letter;
 			socket.broadcast.emit('board update', update);
 		}
-	})
+	});
+	
+	socket.on('pick tile', function(){
+		var letter, _ref;
+		_ref = scrabble.getRandomLetterAndRemainingLetters(letters)
+			, letter = _ref[0]
+			, letters = _ref[1];
+		socket.emit('new tile', letter);
+	});
+
 });
+
+
