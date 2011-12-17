@@ -1,20 +1,25 @@
 doctype 5
 html
-	head
-		link(href='/css/style.css', rel='stylesheet')
-		script(src='http://code.jquery.com/jquery-1.7.min.js')
-		script(src='/socket.io/socket.io.js')
-		script(src='/js/client.js')
-		body
-			a(href="http://github.com/icohen/scrabble")
-				img(style="position: absolute; top: 0; right: 0; border: 0; z-index: 50", src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png", alt="Fork me on GitHub")
-			table#board
-				- boardSize = 15
-				- for (var row=1; row <= boardSize; row++)
-					tr
-						- for (var col=1; col <= boardSize; col++)
-							td
-								input(data-coords="#{row},#{col}",
-											maxlength="1") 
-	
-	
+    head
+        link(href='/css/style.css', rel='stylesheet')
+        script(src='http://code.jquery.com/jquery-1.7.min.js')
+        script(src='/socket.io/socket.io.js')
+        script(src='/js/client.js')
+        body
+            a(href="http://github.com/icohen/scrabble")
+                img(style="position: absolute; top: 0; right: 0; border: 0; z-index: 50", src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png", alt="Fork me on GitHub")
+            table#board
+                - boardSize = 15
+                - for (var row=1; row <= boardSize; row++)
+                    tr
+                        - for (var col=1; col <= boardSize; col++)
+                            td
+                                .space(data-coords="#{row},#{col}")
+            #bar
+                .rack
+                    .tiles
+                ul.actions
+                    li
+                        button.
+                            done
+                

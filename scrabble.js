@@ -1,4 +1,8 @@
-exports.tiles = 'EEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNNRRRRRRTTTTTTLLLLSSSSUUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ  ' // created with ./bin/parse_letter_distributions.py and then added two blanks
+exports.tiles='EEEEEEEEEEEE\
+AAAAAAAAAIIIIIIIIIOOOOOOOON\
+NNNNNRRRRRRTTTTTTLLLLSSSSUU\
+UUDDDDGGGBBCCMMPPFFHHVVWWYY\
+KJXQZ  ' // created with ./bin/parse_letter_distributions.py and then added two blanks
 
 exports.getRandomLetterAndRemainingLetters = function(letters){
 	var pos = Math.floor(Math.random() * letters.length)

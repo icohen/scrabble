@@ -6,7 +6,7 @@ var express = require('express')
   , stylus = require('stylus')
   , nib = require('nib')
   , sio = require('socket.io')
-	, scrabble = require('./scrabble');
+  , scrabble = require('./scrabble');
 
 /**
  * App.
@@ -19,16 +19,18 @@ var app = express.createServer();
  */
 
 app.configure(function () {
-  app.use(stylus.middleware({ src: __dirname + '/public', compile: compile }))
-  app.use(express.static(__dirname + '/public'));
-  app.set('views', __dirname);
-  app.set('view engine', 'jade');
+	app.use(express.cookieParser());
+	app.use(express.session({secret: "i<3heather"}))
+    app.use(stylus.middleware({ src: __dirname + '/public', compile: compile}));
+    app.use(express.static(__dirname + '/public'));
+    app.set('views', __dirname);
+    app.set('view engine', 'jade');
 
-  function compile (str, path) {
-    return stylus(str)
-      .set('filename', path)
-      .use(nib());
-  };
+    function compile (str, path) {
+        return stylus(str)
+          .set('filename', path)
+          .use(nib());
+    };
 });
 
 /**
@@ -36,7 +38,10 @@ app.configure(function () {
  */
 
 app.get('/', function (req, res) {
-  res.render('index', { layout: false});
+    console.log('session', req.session);
+    if (!req.session.playerId) 
+        req.session.playerId = ++playerId;
+    res.render('index', { layout: false});
 });
 
 /**
@@ -44,8 +49,8 @@ app.get('/', function (req, res) {
  */
 
 app.listen(3000, function () {
-  var addr = app.address();
-  console.log('   app listening on http://' + addr.address + ':' + addr.port);
+    var addr = app.address();
+    console.log('   app listening on http://' + addr.address + ':' + addr.port);
 });
 
 /**
@@ -53,29 +58,27 @@ app.listen(3000, function () {
  */
 
 var io = sio.listen(app)
-	, board = {}
-	, letters = scrabble.letters
+    , board = {}
+    , letters = scrabble.letters
+    , playerId = 0;
 
 io.sockets.on('connection', function (socket) {
-	
-	socket.emit('board update', board);
-	
-	socket.on('board update', function(update){
-		for (var coords in update){
-			var letter = update[coords];
-			board[coords] = letter;
-			socket.broadcast.emit('board update', update);
-		}
-	});
-	
-	socket.on('pick tile', function(){
-		var letter, _ref;
-		_ref = scrabble.getRandomLetterAndRemainingLetters(letters)
-			, letter = _ref[0]
-			, letters = _ref[1];
-		socket.emit('new tile', letter);
-	});
-
+    
+    socket.emit('board update', board);
+    
+    socket.on('board update', function(update){
+        for (var coords in update){
+            var letter = update[coords];
+            board[coords] = letter;
+            socket.broadcast.emit('board update', update);
+        }
+    });
+    
+    socket.on('pick tile', function(){
+        var letter, _ref;
+        _ref = scrabble.getRandomLetterAndRemainingLetters(letters)
+            , letter = _ref[0]
+            , letters = _ref[1]; 
+        socket.emit('new tile', letter);
+    });
 });
-
-
