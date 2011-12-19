@@ -2,13 +2,14 @@ doctype 5
 html
     head
         link(href='/css/style.css', rel='stylesheet')
-        script(src='http://code.jquery.com/jquery-1.7.min.js')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+        script(src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js')
         script(src='/socket.io/socket.io.js')
         script(src='/js/client.js')
         body
             a(href="http://github.com/icohen/scrabble")
                 img(style="position: absolute; top: 0; right: 0; border: 0; z-index: 50", src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png", alt="Fork me on GitHub")
-            table#board
+            table#board.tiles
                 - boardSize = 15
                 - for (var row=1; row <= boardSize; row++)
                     tr
@@ -17,9 +18,13 @@ html
                                 .space(data-coords="#{row},#{col}")
             #bar
                 .rack
-                    .tiles
+                    - each tile in tiles
+                        .tile.not-played #{tile}
                 ul.actions
                     li
-                        button.
-                            done
-                
+                        button#play.
+                            play
+                    li 
+                        button#draw.
+                            draw
+                        
