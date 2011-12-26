@@ -6,14 +6,14 @@ KJXQZ  '; // created with ./bin/parse_letter_distributions.py and then added two
 
 exports.getNewAndRemainingTiles = function(oldPlayerTiles, oldRemainingTiles){
     var newTiles = ''
-    , newRemainingTiles = ''
+    , newRemainingTiles = oldRemainingTiles
     , tilesToGet = 7 - oldPlayerTiles.length
     , pos;
     for (var i = 0; i < tilesToGet; i++){
-        pos = Math.floor(Math.random() * oldRemainingTiles.length);
-        newTiles += oldRemainingTiles[pos];
-        newRemainingTiles += oldRemainingTiles.substring(0, pos) 
-                           + oldRemainingTiles.substring(pos+1);
+        pos = Math.floor(Math.random() * newRemainingTiles.length);
+        newTiles += newRemainingTiles[pos];
+        newRemainingTiles = newRemainingTiles.substring(0, pos) 
+                          + newRemainingTiles.substring(pos+1);
     }
     return [newTiles, newRemainingTiles];
 }

@@ -15,29 +15,24 @@ $(function(){
             connectWith: '.space',
             revert: true,
             stop: function (e, ui){
-                console.log('stop', ui.draggable);
                 socket.emit('tile order change', getTilesFromRack());
               },
-            remove: function(e, ui){
-                console.log('remove', ui.item);
-                console.log('from', ui.sender);
-                console.log('to', $(this));
-            }
          }).disableSelection();
     $('.space')
         .sortable({
-              connectWith: '.rack',
+              connectWith: '.rack, .space',
               revert: true,
-              stop: function(e, ui){
-                  console.log('.space stop', ui.draggable);
-              },              
-        }).disableSelection()
-        
+              receive: function(e, ui){
+                  if ($(this).find('.tile').size() > 1)
+                      ui.sender.sortable('cancel');
+              }
+        }).disableSelection();
+
     // events
     $('#draw').click(function drawTilesHandler(){
         socket.emit('draw tiles', getTilesFromRack());
     });
-    $('#play').click(function play(){
+    $('#play').click(function playHandler(){
         var updates = {};
         $('#board .not-played')
             .each(function(){
