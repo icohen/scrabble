@@ -15,7 +15,8 @@ $(function(){
             connectWith: '.space',
             revert: true,
             stop: function (e, ui){
-                socket.emit('tile order change', getTilesFromRack());
+                console.log('stop');
+                socket.emit('rack tile change', getTilesFromRack());
               },
          }).disableSelection();
     $('.space')

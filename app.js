@@ -99,7 +99,7 @@ io.sockets.on('connection', function (socket) {
         remainingTiles = newRemainingTiles;
         socket.emit('new tiles', newPlayerTiles);
     })
-    socket.on('tile order change', saveTiles);
+    socket.on('rack tile change', saveTiles);
     
     // helpers
     function saveTiles(tiles){
